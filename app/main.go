@@ -21,17 +21,14 @@ func getCurrencyRates(code, date string) (models.ValCurs, error) {
 		return models.ValCurs{}, fmt.Errorf("неверный формат даты, нужен: yyyy-mm-dd")
 	}
 	formattedDate := fmt.Sprintf("%s/%s/%s", parts[2], parts[1], parts[0])
-
+	//формируем запрос
 	url := fmt.Sprintf("%s?date_req=%s", cbrAPIURL, formattedDate)
-	fmt.Println(url)
 	resp, err := http.Get(url)
 	if err != nil {
 		return models.ValCurs{}, err
 	}
 	defer resp.Body.Close()
-
-	fmt.Println(resp)
-
+	
 	if resp.StatusCode != http.StatusOK {
 		return models.ValCurs{}, fmt.Errorf("Ошибка получения данных. Status code: %d", resp.StatusCode)
 	}
@@ -60,17 +57,17 @@ func main() {
 	flag.Parse()
 
 	if *codePtr == "" || *datePtr == "" || !isValidDateFormat(*datePtr) {
-		fmt.Println("Usage: currency_rates --code=USD --date=2022-10-08")
+		fmt.Println("Ошибка получения данных")
 		return
 	}
 
 	valCurs, err := getCurrencyRates(*codePtr, *datePtr)
 	if err != nil {
-		fmt.Printf("Error getting currency rates: %s\n", err)
+		fmt.Printf("Ошибка получения курсов валют: %s\n", err)
 		return
 	}
 
-	fmt.Printf("Currency rates for %s on %s:\n", *codePtr, valCurs.Date)
+	fmt.Printf("Курс валюты для %s на %s:\n", *codePtr, valCurs.Date)
 	found := false
 	for _, valute := range valCurs.ValuteArr {
 		if strings.ToUpper(valute.CharCode) == strings.ToUpper(*codePtr) {
@@ -81,6 +78,6 @@ func main() {
 	}
 
 	if !found {
-		fmt.Printf("Currency with code %s not found for the specified date.\n", *codePtr)
+		fmt.Printf("Валюта с кодом %s не найдено на указанную дату.\n", *codePtr)
 	}
 }
