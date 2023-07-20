@@ -1,2 +1,2 @@
 ## Запуск через терминал командой:
-go run .\app\main.go --code="<КОД>" --date="<YYYY-MM-DD>"
+go run .\app\main.go --code="<КОД>" --date="<ГГГГ-ММ-ДД>"
