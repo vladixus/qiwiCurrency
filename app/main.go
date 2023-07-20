@@ -28,7 +28,7 @@ func getCurrencyRates(code, date string) (models.ValCurs, error) {
 		return models.ValCurs{}, err
 	}
 	defer resp.Body.Close()
-	
+
 	if resp.StatusCode != http.StatusOK {
 		return models.ValCurs{}, fmt.Errorf("Ошибка получения данных. Status code: %d", resp.StatusCode)
 	}
