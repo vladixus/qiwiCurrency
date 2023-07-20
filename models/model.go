@@ -1,7 +1,7 @@
 package models
 
 type ValCurs struct {
-	Date      string `xml:"Date,attr"`
+	Date      string `xml:"Date"`
 	ValuteArr []Valute
 }
 
